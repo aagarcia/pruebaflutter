@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pruebaapp/components/components.dart';
 
 class HomeBody extends StatelessWidget {
@@ -27,7 +28,7 @@ class HomeBody extends StatelessWidget {
               height: 342,
               child: ListView(
                 scrollDirection: Axis.horizontal,
-                children: const [
+                children: [
                   CourtCard(
                     courtName: 'Epic Box',
                     courtType: 'Cancha tipo A',
@@ -36,6 +37,7 @@ class HomeBody extends StatelessWidget {
                     time: '7:00 am a 4:00 pm',
                     imageUrl: 'assets/p4/cancha_multiple_rectangulo.png',
                     progress: 30,
+                    onPressed: () => context.go('/reserva'),
                   ),
                   CourtCard(
                     courtName: 'Sport Zone',
@@ -45,6 +47,7 @@ class HomeBody extends StatelessWidget {
                     time: '',
                     imageUrl: 'assets/p4/epic_box_rectangulo.png',
                     progress: 60,
+                    onPressed: () => context.go('/reserva'),
                   ),
                   CourtCard(
                     courtName: 'Sport Zone',
@@ -54,6 +57,7 @@ class HomeBody extends StatelessWidget {
                     time: '7:00 am a 4:00 pm',
                     imageUrl: 'assets/p4/rusty_tenis_rectangulo.png',
                     progress: 30,
+                    onPressed: () => context.go('/reserva'),
                   ),
                 ],
               ),

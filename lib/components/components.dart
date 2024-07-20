@@ -4,3 +4,5 @@ export 'package:pruebaapp/components/court_card.dart';
 export 'package:pruebaapp/components/image_principal.dart';
 export 'package:pruebaapp/components/reservation_card.dart';
 export 'package:pruebaapp/components/reserva_card.dart';
+export 'package:pruebaapp/components/carrusel.dart';
+export 'package:pruebaapp/components/informacion_cancha.dart';

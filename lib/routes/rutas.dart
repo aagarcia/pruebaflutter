@@ -6,7 +6,7 @@ class AppRoutes {
     routes: [
       GoRoute(
         path: '/',
-        builder: (context, state) => const Reserva(),
+        builder: (context, state) => const Inicio(),
       ),
       GoRoute(
         path: '/sesion',
@@ -19,6 +19,14 @@ class AppRoutes {
       GoRoute(
         path: '/principal',
         builder: (context, state) => const Principal(),
+      ),
+      GoRoute(
+        path: '/reserva',
+        builder: (context, state) => const Reserva(),
+      ),
+      GoRoute(
+        path: '/confirmacion',
+        builder: (context, state) => const Confirmacion(),
       ),
     ],
   );

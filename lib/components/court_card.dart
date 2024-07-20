@@ -8,6 +8,7 @@ class CourtCard extends StatelessWidget {
   final String time;
   final String imageUrl;
   final int progress;
+  final VoidCallback? onPressed;
 
   const CourtCard({
     super.key,
@@ -18,6 +19,7 @@ class CourtCard extends StatelessWidget {
     required this.time,
     required this.imageUrl,
     required this.progress,
+    required this.onPressed,
   });
 
   @override
@@ -102,7 +104,7 @@ class CourtCard extends StatelessWidget {
                           borderRadius: BorderRadius.circular(8.0),
                         ),
                       ),
-                      onPressed: () {},
+                      onPressed: onPressed,
                       child: const Padding(
                         padding: EdgeInsets.symmetric(
                             horizontal: 24.0, vertical: 12.0),
