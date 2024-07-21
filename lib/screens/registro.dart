@@ -1,20 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:pruebaapp/components/components.dart';
+import 'package:pruebaapp/providers/providers.dart';
 
-class Registro extends StatefulWidget {
+class Registro extends StatelessWidget {
   const Registro({super.key});
 
   @override
-  State<Registro> createState() => _RegistroState();
-}
-
-class _RegistroState extends State<Registro> {
-  bool _isObscured = true;
-  bool _isObscured2 = false;
-
-  @override
   Widget build(BuildContext context) {
+
+    final registroProvider = Provider.of<RegistroProvider>(context);
+
     return Scaffold(
       resizeToAvoidBottomInset: true,
       body: SingleChildScrollView(
@@ -137,15 +134,11 @@ class _RegistroState extends State<Registro> {
                         color: Colors.grey, // Cambia el color del ícono
                       ),
                       suffixIcon: IconButton(
-                        icon: _isObscured
+                        icon: registroProvider.isObscured
                             ? const Icon(Icons.visibility, color: Colors.grey)
                             : const Icon(Icons.visibility_off,
                                 color: Colors.grey),
-                        onPressed: () {
-                          setState(() {
-                            _isObscured = !_isObscured;
-                          });
-                        },
+                        onPressed: () => registroProvider.changeObscured(),
                       ),
                       border: InputBorder.none, // Elimina el borde por defecto
                       enabledBorder: const UnderlineInputBorder(
@@ -161,7 +154,7 @@ class _RegistroState extends State<Registro> {
                     style: const TextStyle(
                       color: Colors.black, // Cambia el color del texto
                     ),
-                    obscureText: _isObscured,
+                    obscureText: registroProvider.isObscured,
                   ),
                   const SizedBox(height: 20),
                   TextField(
@@ -175,15 +168,11 @@ class _RegistroState extends State<Registro> {
                         color: Colors.grey, // Cambia el color del ícono
                       ),
                       suffixIcon: IconButton(
-                        icon: _isObscured2
+                        icon: registroProvider.isObscured2
                             ? const Icon(Icons.visibility, color: Colors.grey)
                             : const Icon(Icons.visibility_off,
                                 color: Colors.grey),
-                        onPressed: () {
-                          setState(() {
-                            _isObscured2 = !_isObscured2;
-                          });
-                        },
+                        onPressed: () => registroProvider.changeObscured2(),
                       ),
                       border: InputBorder.none, // Elimina el borde por defecto
                       enabledBorder: const UnderlineInputBorder(
@@ -199,7 +188,7 @@ class _RegistroState extends State<Registro> {
                     style: const TextStyle(
                       color: Colors.black, // Cambia el color del texto
                     ),
-                    obscureText: _isObscured2,
+                    obscureText: registroProvider.isObscured2,
                   ),
                   const SizedBox(height: 30),
                   ButtonGreen(

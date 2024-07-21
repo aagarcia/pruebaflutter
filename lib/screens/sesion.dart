@@ -1,20 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:pruebaapp/components/components.dart';
+import 'package:pruebaapp/providers/providers.dart';
 
-class Sesion extends StatefulWidget {
+class Sesion extends StatelessWidget {
   const Sesion({super.key});
 
   @override
-  State<Sesion> createState() => _SesionState();
-}
-
-class _SesionState extends State<Sesion> {
-  bool _isCheck = false;
-  bool _isObscured = true;
-
-  @override
   Widget build(BuildContext context) {
+    final loginProvider = Provider.of<LoginProvider>(context);
+
     return Scaffold(
       resizeToAvoidBottomInset: true,
       body: SingleChildScrollView(
@@ -85,15 +81,11 @@ class _SesionState extends State<Sesion> {
                         color: Colors.grey, // Cambia el color del ícono
                       ),
                       suffixIcon: IconButton(
-                        icon: _isObscured
+                        icon: loginProvider.isObscured
                             ? const Icon(Icons.visibility, color: Colors.grey)
                             : const Icon(Icons.visibility_off,
                                 color: Colors.grey),
-                        onPressed: () {
-                          setState(() {
-                            _isObscured = !_isObscured;
-                          });
-                        },
+                        onPressed: () => loginProvider.changeObscured(),
                       ),
                       border: InputBorder.none, // Elimina el borde por defecto
                       enabledBorder: const UnderlineInputBorder(
@@ -109,18 +101,15 @@ class _SesionState extends State<Sesion> {
                     style: const TextStyle(
                       color: Colors.black, // Cambia el color del texto
                     ),
-                    obscureText: _isObscured,
+                    obscureText: loginProvider.isObscured,
                   ),
                   const SizedBox(height: 10),
                   Row(
                     children: [
                       Checkbox(
-                        value: _isCheck,
-                        onChanged: (bool? value) {
-                          setState(() {
-                            _isCheck = value!;
-                          });
-                        },
+                        value: loginProvider.isCheck,
+                        onChanged: (bool? value) =>
+                            loginProvider.changeCheck(value!),
                       ),
                       const Text('Recordar contraseña'),
                     ],

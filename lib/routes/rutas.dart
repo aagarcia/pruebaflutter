@@ -21,12 +21,16 @@ class AppRoutes {
         builder: (context, state) => const Principal(),
       ),
       GoRoute(
-        path: '/reserva',
-        builder: (context, state) => const Reserva(),
+        path: '/reserva/:idCancha',
+        builder: (context, state) => Reserva(
+          idCancha: int.parse(state.pathParameters['idCancha']!),
+        ),
       ),
       GoRoute(
-        path: '/confirmacion',
-        builder: (context, state) => const Confirmacion(),
+        path: '/confirmacion/:idCancha',
+        builder: (context, state) => Confirmacion(
+          idCancha: int.parse(state.pathParameters['idCancha']!),
+        ),
       ),
     ],
   );

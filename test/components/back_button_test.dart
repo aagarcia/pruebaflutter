@@ -1,41 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pruebaapp/components/components.dart'; // Ajusta la importación según tu estructura
 
 void main() {
-  testWidgets('BackButton test', (WidgetTester tester) async {
-    // Build a widget that includes the BackButton widget
+  testWidgets('BackButtonComponent renders correctly', (WidgetTester tester) async {
+    // Build the widget
     await tester.pumpWidget(
       MaterialApp(
         home: Scaffold(
-          appBar: AppBar(
-            leading: const BackButton(),
+          body: Stack(
+            children: [
+              BackButtonComponent(
+                onPressed: () {},
+              ),
+            ],
           ),
         ),
       ),
     );
 
-    // Verify the BackButton is in the widget tree
-    expect(find.byType(BackButton), findsOneWidget);
+    // Verify that the BackButtonComponent is rendered
+    expect(find.byType(BackButtonComponent), findsOneWidget);
 
-    // Tap the BackButton and verify the correct callback is called
-    await tester.tap(find.byType(BackButton));
-    await tester.pump();
-    // Add your verification code here.
-    // For example, if the BackButton should navigate to a previous screen,
-    // you could check the current route:
-    // expect(find.byType(MyPreviousScreen), findsOneWidget);
-
-    // You can also test if the correct callback is called.
-    // For example, if the BackButton should call a custom callback:
-    // bool callbackCalled = false;
-    // await tester.tap(find.byType(BackButton));
-    // await tester.pump();
-    // expect(callbackCalled, isTrue);
-
-    // If the BackButton should pop the current route:
-    // expect(find.byType(MyPreviousScreen), findsOneWidget);
-
-    // If the BackButton should close the app:
-    // expect(tester.binding.hasScheduledFrame, isFalse);
+    // Verify the IconButton is inside the BackButtonComponent
+    expect(find.byType(IconButton), findsOneWidget);
+    // Verify the IconButton has the correct icon
+    expect(find.byIcon(Icons.arrow_back), findsOneWidget);
   });
 }

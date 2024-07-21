@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:pruebaapp/components/components.dart';
+import 'package:pruebaapp/controllers/controllers.dart';
+import 'package:pruebaapp/models/models.dart';
 
 class Reserva extends StatefulWidget {
-  const Reserva({super.key});
+  final int idCancha;
+  const Reserva({super.key, required this.idCancha});
 
   @override
   State<Reserva> createState() => _ReservaState();
@@ -11,7 +15,7 @@ class Reserva extends StatefulWidget {
 
 class _ReservaState extends State<Reserva> {
   String _selectedInstructor = 'Seleccionar instructor';
-  TextEditingController _dateController = TextEditingController();
+  final TextEditingController _dateController = TextEditingController();
   String? _selectedStartTime = '00:00';
   String? _selectedEndTime = '00:00';
 
@@ -36,12 +40,19 @@ class _ReservaState extends State<Reserva> {
     if (picked != null) {
       setState(() {
         _dateController.text = "${picked.day}/${picked.month}/${picked.year}";
+        print('Fecha: ${_dateController.text}');
       });
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    InstructorController instructorController =
+        Provider.of<InstructorController>(context, listen: false);
+
+    CanchaController canchaController =
+        Provider.of<CanchaController>(context, listen: false);
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -53,33 +64,64 @@ class _ReservaState extends State<Reserva> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const InformacionCancha(),
-                  const SizedBox(height: 24),
-                  DropdownButtonFormField<String>(
-                    value: _selectedInstructor,
-                    items: const [
-                      DropdownMenuItem(
-                        value: 'Seleccionar instructor',
-                        child: Text('Seleccionar instructor'),
-                      ),
-                      DropdownMenuItem(
-                        value: 'Instructor 1',
-                        child: Text('Instructor 1'),
-                      ),
-                      DropdownMenuItem(
-                        value: 'Instructor 2',
-                        child: Text('Instructor 2'),
-                      ),
-                    ],
-                    onChanged: (value) {
-                      setState(() {
-                        _selectedInstructor = value!;
-                      });
+                  FutureBuilder<Cancha>(
+                    future: canchaController.obtenerCancha(widget.idCancha),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(child: CircularProgressIndicator());
+                      } else if (snapshot.hasError) {
+                        return Center(child: Text('Error: ${snapshot.error}'));
+                      } else if (!snapshot.hasData) {
+                        return const Center(
+                            child: Text('No hay canchas disponibles'));
+                      } else {
+                        return InformacionCancha(
+                          cancha: snapshot.data!,
+                        );
+                      }
                     },
-                    decoration: const InputDecoration(
-                      labelText: 'Agregar instructor',
-                      border: OutlineInputBorder(),
-                    ),
+                  ),
+                  const SizedBox(height: 24),
+                  FutureBuilder<List<Instructor>>(
+                    future: instructorController.obtenerInstructores(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(child: CircularProgressIndicator());
+                      } else if (snapshot.hasError) {
+                        return Center(child: Text('Error: ${snapshot.error}'));
+                      } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                        return const Center(
+                            child: Text('No hay instructores disponibles'));
+                      } else {
+                        List<DropdownMenuItem<String>> listInstructores = [];
+
+                        listInstructores.add(const DropdownMenuItem(
+                          value: 'Seleccionar instructor',
+                          child: Text('Seleccionar instructor'),
+                        ));
+
+                        for (Instructor instructor in snapshot.data!) {
+                          listInstructores.add(DropdownMenuItem(
+                            value: instructor.nombre,
+                            child: Text(instructor.nombre),
+                          ));
+                        }
+
+                        return DropdownButtonFormField<String>(
+                          value: _selectedInstructor,
+                          items: listInstructores,
+                          onChanged: (value) {
+                            setState(() {
+                              _selectedInstructor = value!;
+                            });
+                          },
+                          decoration: const InputDecoration(
+                            labelText: 'Agregar instructor',
+                            border: OutlineInputBorder(),
+                          ),
+                        );
+                      }
+                    },
                   ),
                 ],
               ),
@@ -120,7 +162,10 @@ class _ReservaState extends State<Reserva> {
                           items: _timeOptions.map((String time) {
                             return DropdownMenuItem<String>(
                               value: time,
-                              child: Text(time),
+                              child: Text(time,
+                                  style: const TextStyle(
+                                    decoration: TextDecoration.lineThrough,
+                                  )),
                             );
                           }).toList(),
                           onChanged: (value) {
@@ -172,7 +217,8 @@ class _ReservaState extends State<Reserva> {
                   ),
                   const SizedBox(height: 45),
                   ButtonGreen(
-                      onPressed: () => context.go('/confirmacion'),
+                      onPressed: () =>
+                          context.go('/confirmacion/${widget.idCancha}'),
                       textButton: 'Reservar'),
                 ],
               ),

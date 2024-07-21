@@ -6,3 +6,4 @@ export 'package:pruebaapp/components/reservation_card.dart';
 export 'package:pruebaapp/components/reserva_card.dart';
 export 'package:pruebaapp/components/carrusel.dart';
 export 'package:pruebaapp/components/informacion_cancha.dart';
+export 'package:pruebaapp/components/card_progress.dart';

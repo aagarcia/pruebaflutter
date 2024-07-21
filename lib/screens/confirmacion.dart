@@ -1,27 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:pruebaapp/components/components.dart';
+import 'package:pruebaapp/controllers/controllers.dart';
+import 'package:pruebaapp/models/models.dart';
 
 class Confirmacion extends StatelessWidget {
-  const Confirmacion({super.key});
+  final int idCancha;
+  const Confirmacion({super.key, required this.idCancha});
 
   @override
   Widget build(BuildContext context) {
+    CanchaController canchaController =
+        Provider.of<CanchaController>(context, listen: false);
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
           children: [
             Carrusel(
-              onPressed: () => context.go('/reserva'),
+              onPressed: () => context.go('/reserva/$idCancha'),
             ),
             Container(
               color: Colors.white,
               padding: const EdgeInsets.all(16.0),
-              child: const Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  InformacionCancha(),
-                ],
+              child: FutureBuilder<Cancha>(
+                future: canchaController.obtenerCancha(idCancha),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasError) {
+                    return Center(child: Text('Error: ${snapshot.error}'));
+                  } else if (!snapshot.hasData) {
+                    return const Center(
+                        child: Text('No hay canchas disponibles'));
+                  } else {
+                    return InformacionCancha(
+                      cancha: snapshot.data!,
+                    );
+                  }
+                },
               ),
             ),
             Container(
@@ -130,7 +148,7 @@ class Confirmacion extends StatelessWidget {
                         const SizedBox(height: 16),
                         OutlinedButton(
                           onPressed: () {
-                            // Lógica del botón "Cancelar"
+                            context.go('/reserva/$idCancha');
                           },
                           style: OutlinedButton.styleFrom(
                             side: const BorderSide(color: Color(0xFF3D3D3D)),

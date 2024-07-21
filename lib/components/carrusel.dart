@@ -17,7 +17,7 @@ class _CarruselState extends State<Carrusel> {
     'assets/p5/carrusel.png',
     'assets/p5/carrusel.png',
   ];
-  final CarouselController _controller = CarouselController();
+  final CarouselController controller = CarouselController();
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +45,7 @@ class _CarruselState extends State<Carrusel> {
                 });
               },
             ),
-            carouselController: _controller,
+            carouselController: controller,
           ),
         ),
         BackButtonComponent(onPressed: widget.onPressed),
@@ -68,7 +68,7 @@ class _CarruselState extends State<Carrusel> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: _imgList.asMap().entries.map((entry) {
               return GestureDetector(
-                onTap: () => _controller.animateToPage(entry.key),
+                onTap: () => controller.animateToPage(entry.key),
                 child: Container(
                   width: 12.0,
                   height: 12.0,

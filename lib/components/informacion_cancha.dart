@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:pruebaapp/models/models.dart';
 
 class InformacionCancha extends StatelessWidget {
+  final Cancha cancha;
   const InformacionCancha({
     super.key,
+    required this.cancha,
   });
 
   @override
   Widget build(BuildContext context) {
-    return const Row(
+    return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(
@@ -15,41 +18,42 @@ class InformacionCancha extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Epic Box',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                cancha.nombre,
+                style:
+                    const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
-              SizedBox(height: 4),
+              const SizedBox(height: 4),
               Text(
-                'Cancha tipo A',
-                style: TextStyle(fontSize: 16, color: Colors.grey),
+                cancha.tipo,
+                style: const TextStyle(fontSize: 16, color: Colors.grey),
               ),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               Row(
                 children: [
                   Text(
-                    'Disponible',
-                    style: TextStyle(color: Colors.grey, fontSize: 16),
+                    cancha.disponibilidad,
+                    style: const TextStyle(color: Colors.grey, fontSize: 16),
                   ),
-                  SizedBox(width: 4),
-                  Icon(Icons.circle, color: Color(0xFF346BC3), size: 12),
-                  SizedBox(width: 16),
-                  Icon(Icons.access_time, color: Colors.grey, size: 16),
-                  SizedBox(width: 4),
+                  const SizedBox(width: 4),
+                  const Icon(Icons.circle, color: Color(0xFF346BC3), size: 12),
+                  const SizedBox(width: 16),
+                  const Icon(Icons.access_time, color: Colors.grey, size: 16),
+                  const SizedBox(width: 4),
                   Text(
-                    '7:00 am a 4:00 pm',
-                    style: TextStyle(color: Colors.grey, fontSize: 16),
+                    '${cancha.horaIni} am a ${cancha.horaFin} pm',
+                    style: const TextStyle(color: Colors.grey, fontSize: 16),
                   ),
                 ],
               ),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               Row(
                 children: [
-                  Icon(Icons.location_on, color: Colors.grey, size: 16),
-                  SizedBox(width: 4),
+                  const Icon(Icons.location_on, color: Colors.grey, size: 16),
+                  const SizedBox(width: 4),
                   Expanded(
                     child: Text(
-                      'Via Av. Caracas y Av. P.º Caroni',
-                      style: TextStyle(color: Colors.grey, fontSize: 16),
+                      cancha.direccion,
+                      style: const TextStyle(color: Colors.grey, fontSize: 16),
                     ),
                   ),
                 ],
@@ -61,20 +65,20 @@ class InformacionCancha extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Text(
-              '\$25',
-              style: TextStyle(
+              '\$${cancha.valor.toStringAsFixed(0)}',
+              style: const TextStyle(
                 fontSize: 24,
                 color: Colors.blue,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 4),
-            Text(
+            const SizedBox(height: 4),
+            const Text(
               'Por hora',
               style: TextStyle(fontSize: 16, color: Colors.grey),
             ),
-            SizedBox(height: 8),
-            Row(
+            const SizedBox(height: 8),
+            const Row(
               children: [
                 Icon(Icons.cloud, color: Colors.grey, size: 16),
                 SizedBox(width: 4),
