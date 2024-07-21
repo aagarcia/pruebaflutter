@@ -21,6 +21,14 @@ void main() async {
         ChangeNotifierProvider(
           create: (_) => DatabaseHelper(),
         ),
+        ChangeNotifierProvider(
+          create: (_) => ClimaProvider(),
+        ),
+        ChangeNotifierProvider(create: (_) {
+          final cityProvider = CityProvider();
+          cityProvider.getRandomCity();
+          return cityProvider;
+        }),
         ChangeNotifierProxyProvider<DatabaseHelper, InstructorController>(
           create: (context) =>
               InstructorController(context.read<DatabaseHelper>()),

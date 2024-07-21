@@ -3,9 +3,13 @@ import 'package:pruebaapp/models/models.dart';
 
 class InformacionCancha extends StatelessWidget {
   final Cancha cancha;
+  final int progress;
+  final String iconUrl;
   const InformacionCancha({
     super.key,
     required this.cancha,
+    required this.iconUrl,
+    required this.progress,
   });
 
   @override
@@ -78,13 +82,17 @@ class InformacionCancha extends StatelessWidget {
               style: TextStyle(fontSize: 16, color: Colors.grey),
             ),
             const SizedBox(height: 8),
-            const Row(
+            Row(
               children: [
-                Icon(Icons.cloud, color: Colors.grey, size: 16),
-                SizedBox(width: 4),
+                Image.network(
+                  iconUrl,
+                  width: 30,
+                  height: 30,
+                ),
+                const SizedBox(width: 4),
                 Text(
-                  '30 %',
-                  style: TextStyle(color: Colors.grey, fontSize: 16),
+                  '${progress.toStringAsFixed(0)} %',
+                  style: const TextStyle(color: Colors.grey, fontSize: 16),
                 ),
               ],
             ),

@@ -8,6 +8,7 @@ class CourtCard extends StatelessWidget {
   final String time;
   final String imageUrl;
   final int progress;
+  final String iconUrl;
   final VoidCallback? onPressed;
 
   const CourtCard({
@@ -19,6 +20,7 @@ class CourtCard extends StatelessWidget {
     required this.time,
     required this.imageUrl,
     required this.progress,
+    required this.iconUrl,
     required this.onPressed,
   });
 
@@ -59,8 +61,11 @@ class CourtCard extends StatelessWidget {
                               fontSize: 18, fontWeight: FontWeight.bold),
                         ),
                       ),
-                      const Icon(Icons.wb_cloudy_outlined,
-                          size: 20, color: Colors.grey),
+                      Image.network(
+                        iconUrl,
+                        width: 30,
+                        height: 30,
+                      ),
                       const SizedBox(width: 4),
                       Text('$progress %'),
                     ],
